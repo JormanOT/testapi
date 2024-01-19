@@ -8,7 +8,7 @@ const uploadContrtoller = {
         console.log(File)
 
         try {
-            const fileExist = await filesModel.find({ hash: File.md5 });
+            const fileExist = await filesModel.find({ name: File.name });
             console.log(fileExist)
 
             if (fileExist.length > 0) return res.status(401).json({ message: 'Ya el archivo existe', status: 'Error' });
