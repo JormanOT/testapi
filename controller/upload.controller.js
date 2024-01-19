@@ -17,16 +17,30 @@ const uploadContrtoller = {
 
             const fileExt = path.extname(File.name).toLowerCase();
 
-            const newFile = new filesModel({
-                name: File.name,
-                hash: File.md5,
-                size: File.size,
-                type: fileExt
-            });
+            if (
+                ext === '.pdf' ||
+                ext === '.doc' ||
+                ext === '.docx' ||
+                ext === '.xls' ||
+                ext === '.xlsx' ||
+                ext === '.ppt' ||
+                ext === '.pptx'
+            ) {
 
-            newFile.save();
+                const newFile = new filesModel({
+                    name: File.name,
+                    hash: File.md5,
+                    size: File.size,
+                    type: fileExt
+                });
 
-            res.json({ "message": "OK" });
+                const file = await newFile.save();
+
+                res.json(file);
+
+            } else {
+                res.status(401).json({ "message": "Archivo no Soportado" });
+            }
         } catch (error) {
             console.log(error)
             res.status(500).json({ message: 'Error de Servidor', status: 'Error' })
